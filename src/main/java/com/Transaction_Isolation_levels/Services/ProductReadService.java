@@ -20,7 +20,7 @@ public class ProductReadService {
     @Autowired
     private EntityManager em;
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public String displayProductDetails(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
@@ -29,7 +29,7 @@ public class ProductReadService {
 
 
         try {
-            Thread.sleep(15000);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

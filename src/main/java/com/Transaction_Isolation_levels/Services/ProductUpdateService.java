@@ -26,7 +26,7 @@ public class ProductUpdateService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public void UpdateProductPrice1(Long id, Double newPrice) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         product.setPrice(newPrice);
@@ -35,7 +35,7 @@ public class ProductUpdateService {
 
         try {
             // System.out.println("Updating product price but delaying commit...");
-            Thread.sleep(0);
+            Thread.sleep(20000);
             // 10 seconds delay
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -44,7 +44,7 @@ public class ProductUpdateService {
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
     public void UpdateProductPrice2(Long id, Double newPrice) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         product.setPrice(newPrice);
