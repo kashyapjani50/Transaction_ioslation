@@ -51,7 +51,6 @@ public class ProductUpdateService {
         productRepository.save(product);
     }
 
-
 // read comitted
 //    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
 //    public void updateProductPrice(Long id, Double newPrice) {
