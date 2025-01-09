@@ -14,16 +14,16 @@ public class Product {
     private String name;
     private Double price;
 
-    @Version
-    private int version;
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
+//    @Version
+//    private int version;
+//
+//    public int getVersion() {
+//        return version;
+//    }
+//
+//    public void setVersion(int version) {
+//        this.version = version;
+//    }
 
     // Getters and Setters
     public Long getId() {
