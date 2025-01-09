@@ -19,18 +19,7 @@ public class ProductReadService {
 
     @Autowired
     private EntityManager em;
-//    //////////////// Read Committed ////////////////////
 
-//    @Transactional(isolation = Isolation.READ_COMMITTED)
-//    public void displayProductDetails(Long id) {
-//        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-//        System.out.println("Product Name: " + product.getName());
-//        System.out.println("Product Price: " + product.getPrice());
-//
-//    }
-
-
-//    //////////////// Read Committed ////////////////////
 //    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public String displayProductDetails(Long id) {
@@ -44,9 +33,6 @@ public class ProductReadService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-//        em.refresh(product);
-      //  em.clear();
 
         Product product1 = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
         System.out.println("Product Name: " + product1.getName());

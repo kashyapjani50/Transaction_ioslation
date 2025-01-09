@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-//@EnableAsync
 public class ProductUpdateService {
 
     @Autowired
@@ -25,8 +24,34 @@ public class ProductUpdateService {
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
-//    ////////////////////////////// Read Uncommitted ///////////////////////////////
 
+    //    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void UpdateProductPrice1(Long id, Double newPrice) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setPrice(newPrice);
+        productRepository.save(product);
+//        entityManager.flush();
+
+        try {
+            // System.out.println("Updating product price but delaying commit...");
+            Thread.sleep(0);
+            // 10 seconds delay
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public void UpdateProductPrice2(Long id, Double newPrice) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setPrice(newPrice);
+        productRepository.save(product);
+    }
+
+
+// read comitted
 //    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
 //    public void updateProductPrice(Long id, Double newPrice) {
 //        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
@@ -65,40 +90,4 @@ public class ProductUpdateService {
 //        //System.out.println(10/0);
 //
 //    }
-
-
-
-//    //////////////////////////// REPEATABLE READ ///////////////////////////////
- //   @Async
-//    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void UpdateProductPrice(Long id, Double newPrice) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-        product.setPrice(newPrice);
-        productRepository.save(product);
-//        entityManager.flush();
-
-//        System.out.println(product.getPrice());
-//        System.out.println(product.getName());
-
-        // Simulate delay to keep transaction open
-//        try {
-//           // System.out.println("Updating product price but delaying commit...");
-//            Thread.sleep(0);
-//            // 10 seconds delay
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//        }
-        //System.out.println(10/0);
-
-
-
-    }
-
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public void UpdateProductPrice1(Long id, Double newPrice) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-        product.setPrice(newPrice);
-        productRepository.save(product);
-    }
 }

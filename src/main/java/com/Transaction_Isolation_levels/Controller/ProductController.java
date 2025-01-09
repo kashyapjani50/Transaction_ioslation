@@ -27,13 +27,13 @@ public class ProductController {
     // Endpoint to update product price (Transaction 1)
     @PutMapping("/first/{id}/{newPrice}")
     public String updateProductPrice(@PathVariable Long id, @PathVariable Double newPrice) {
-        productUpdateService.UpdateProductPrice(id, newPrice);
+        productUpdateService.UpdateProductPrice1(id, newPrice);
         return "Update transaction started for product " + id + ". Check the console for results.";
     }
 
     @PutMapping("/second/{id}/{newPrice}")
     public String updateProductPrice1(@PathVariable Long id, @PathVariable Double newPrice) {
-        productUpdateService.UpdateProductPrice1(id, newPrice);
+        productUpdateService.UpdateProductPrice2(id, newPrice);
         return "Update transaction started for product " + id + ". Check the console for results.";
     }
 
@@ -43,6 +43,5 @@ public class ProductController {
     @GetMapping("/{id}")
     public String readProductDetails(@PathVariable Long id) {
        return productReadService.displayProductDetails(id);
-//        return "Read transaction completed for product " + id + ". Check the console for results." + ;
     }
 }
